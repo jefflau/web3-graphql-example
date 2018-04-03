@@ -17,6 +17,10 @@ const typeDefs = `
     people: [User]
     web3: Web3
   }
+
+  schema {
+    query: Query
+  }
 `
 
 export default typeDefs

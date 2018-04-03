@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import getWeb3, { getAccounts } from './web3'
 
 const users = {
+  //singleton could hold local state
   doug: {
     id: 8,
     name: 'Doug Funnie',
@@ -23,13 +24,14 @@ const users = {
 }
 
 const resolvers = {
-  Web3: () => ({
+  Web3: {
     accounts: () => getAccounts()
-  }),
-  Query: () => ({
-    loggedInUser: () => users.doug,
-    web3: () => getWeb3(),
+  },
+  Query: {
+    loggedInUser: () => users.doug, // could be local state
+    web3: () => getWeb3(), // data from the blockchain
     people: () =>
+      // could call to any backend or REST api
       fetch('https://emerald-ink.glitch.me/people')
         .then(res => res.json())
         .then(people =>
@@ -39,7 +41,7 @@ const resolvers = {
             image: person.image
           }))
         )
-  })
+  }
 }
 
 export default resolvers
